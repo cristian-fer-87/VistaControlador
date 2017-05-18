@@ -23,7 +23,7 @@ public class ControladoraLogueo {
     
     public Usuario usuarioLogueado(String usuario, String clave) throws NullPointerException, Exception{
         Usuario u = this.em.buscarUsuario(usuario);
-        if(!u.getClave().equals(clave))
+        if(!u.claveCorrecta(clave))
             throw new Exception("Contraseña incorrecta!");
         return u;
     }
