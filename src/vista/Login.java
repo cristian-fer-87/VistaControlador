@@ -95,6 +95,9 @@ public class Login extends javax.swing.JFrame {
         String clave = new String(this.passClave.getPassword());
         try {
             cp.getcLogueo().usuarioLogueado(usuario, clave);
+            Principal principal = new Principal();
+            principal.setVisible(true);
+            this.dispose();
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(null, "El usuario no existe!");
         } catch (Exception e) {
