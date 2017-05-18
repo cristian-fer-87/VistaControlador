@@ -49,7 +49,7 @@ public class Empresa {
         this.usuarios = usuarios;
     }
     
-    public Usuario buscarUsuario(String usuario){
+    public Usuario buscarUsuario(String usuario) /*throws Exception*/{
         Usuario u = null;
         for (Usuario us : usuarios) {
             if(us.getUsuario().equals(usuario)){
@@ -57,6 +57,7 @@ public class Empresa {
                 break;
             }
         }
+        //if(u == null) throw new Exception("El Usuario no existe!");
         return u;
     }
 }

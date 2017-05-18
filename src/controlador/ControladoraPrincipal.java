@@ -16,17 +16,23 @@ import vista.Login;
  * @author cristian
  */
 public class ControladoraPrincipal {
-    private Usuario usuario;
-    private List<Usuario> usuarios;
+    
     private Empresa empresa;
+    private ControladoraLogueo cLogueo;
     
     public ControladoraPrincipal() {
+        Usuario usuario;
+        List<Usuario> usuarios;
         usuario = new Usuario("Cristian", "cristian", "1234");
         usuarios = new LinkedList();
         usuarios.add(usuario);
         empresa = new Empresa("Sistemate", "direccion", usuarios);
+        cLogueo = new ControladoraLogueo(empresa);
     }
 
+    public ControladoraLogueo getcLogueo() {
+        return cLogueo;
+    }
     
     /**
      * @param args the command line arguments

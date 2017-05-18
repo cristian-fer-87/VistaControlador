@@ -15,11 +15,17 @@ import modelo.Usuario;
  * @author cristian
  */
 public class ControladoraLogueo {
-
+    Empresa em;
     
-    public ControladoraLogueo() {
-
+    public ControladoraLogueo(Empresa empresa) {
+        this.em = empresa;
     }
     
+    public Usuario usuarioLogueado(String usuario, String clave) throws NullPointerException, Exception{
+        Usuario u = this.em.buscarUsuario(usuario);
+        if(!u.getClave().equals(clave))
+            throw new Exception("Contraseña incorrecta!");
+        return u;
+    }
     
 }
