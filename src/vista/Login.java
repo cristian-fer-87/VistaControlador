@@ -9,6 +9,7 @@ import controlador.ControladoraPrincipal;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import modelo.Empresa;
+import modelo.Usuario;
 
 /**
  *
@@ -91,15 +92,25 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        //Obtengo los valores ingresados por el usuario.
         String usuario = this.txtUsuario.getText();
         String clave = new String(this.passClave.getPassword());
         try {
-            cp.getcLogueo().usuarioLogueado(usuario, clave);
-            Principal principal = new Principal();
+            //Recupero el usuario (si es que existe)
+            Usuario usuarioLogueado = cp.getcLogueo().usuarioLogueado(usuario, clave);
+            //si todo sale bien llamo a la ventana principal de mi aplicación
+            Principal principal = new Principal(usuarioLogueado);
             principal.setVisible(true);
+            //Cierro esta ventana de login.
             this.dispose();
+        //El método usuarioLogueado puede lanzar un NullPointerException
+        //Si lo hace quiere decir que no hay un usuario con el nombre
+        //que ingresó el usuario.
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(null, "El usuario no existe!");
+        //Si el usuario existe pero la contraseña es incorrecta también 
+        //se lanza una excepción que será capturada aquí y se mostrará
+        //el mensaje declarado en el metodo usuarioLogueado
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }

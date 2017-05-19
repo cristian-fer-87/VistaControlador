@@ -5,8 +5,6 @@
  */
 package controlador;
 
-import java.util.LinkedList;
-import java.util.List;
 import modelo.Empresa;
 import modelo.Usuario;
 
@@ -27,5 +25,4 @@ public class ControladoraLogueo {
             throw new Exception("Contraseña incorrecta!");
         return u;
     }
-    
 }

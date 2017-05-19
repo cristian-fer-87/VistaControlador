@@ -5,12 +5,11 @@
  */
 package modelo;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  *
- * @author cristian
+ * @author sistemate
  */
 public class Empresa {
     private String nombre;
@@ -57,7 +56,6 @@ public class Empresa {
                 break;
             }
         }
-        //if(u == null) throw new Exception("El Usuario no existe!");
         return u;
     }
 }

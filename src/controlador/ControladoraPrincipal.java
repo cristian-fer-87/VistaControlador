@@ -13,7 +13,7 @@ import vista.Login;
 
 /**
  *
- * @author cristian
+ * @author sistemate
  */
 public class ControladoraPrincipal {
     
@@ -42,5 +42,4 @@ public class ControladoraPrincipal {
         Login login = new Login(cp);
         login.setVisible(true);
     }
-    
 }
