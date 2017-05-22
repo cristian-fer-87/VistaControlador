@@ -13,6 +13,7 @@ public class Usuario {
     private String nombre;
     private String usuario;
     private String clave;
+    private NivelDeUsario nivel;
 
     public Usuario(String nombre, String usuario, String clave) {
         this.nombre = nombre;
@@ -46,6 +47,14 @@ public class Usuario {
     public void setClave(String clave) {
         this.clave = clave;
     }
+
+    public NivelDeUsario getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(NivelDeUsario nivel) {
+        this.nivel = nivel;
+    }
     
     public boolean claveCorrecta(String pass){
         boolean retorno = false;
@@ -53,4 +62,5 @@ public class Usuario {
             retorno = true;
         return retorno;
     }
+    
 }

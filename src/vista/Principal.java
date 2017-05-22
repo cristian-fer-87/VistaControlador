@@ -19,6 +19,8 @@ public class Principal extends javax.swing.JFrame {
     public Principal(Usuario usuario) {
         initComponents();
         this.usuarioLogueado = usuario;
+        if(this.usuarioLogueado.getNivel().getNivel() == 2)
+            mnuItemGUsuarios.setEnabled(false);
     }
 
     /**
@@ -30,41 +32,55 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDesktopPane2 = new javax.swing.JDesktopPane();
-        jMenuBar2 = new javax.swing.JMenuBar();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
+        escritorio = new javax.swing.JDesktopPane();
+        barraMenu = new javax.swing.JMenuBar();
+        mnuArchivo = new javax.swing.JMenu();
+        mnuItemGUsuarios = new javax.swing.JMenuItem();
+        mnuItemSalir = new javax.swing.JMenuItem();
+        mnuOpciones = new javax.swing.JMenu();
+        mnuItemAcercaDe = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout jDesktopPane2Layout = new javax.swing.GroupLayout(jDesktopPane2);
-        jDesktopPane2.setLayout(jDesktopPane2Layout);
-        jDesktopPane2Layout.setHorizontalGroup(
-            jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
+        escritorio.setLayout(escritorioLayout);
+        escritorioLayout.setHorizontalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 437, Short.MAX_VALUE)
         );
-        jDesktopPane2Layout.setVerticalGroup(
-            jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        escritorioLayout.setVerticalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 299, Short.MAX_VALUE)
         );
 
-        jMenu3.setText("File");
-        jMenuBar2.add(jMenu3);
+        mnuArchivo.setText("Archivo");
 
-        jMenu4.setText("Edit");
-        jMenuBar2.add(jMenu4);
+        mnuItemGUsuarios.setText("Gestión de Usuarios");
+        mnuArchivo.add(mnuItemGUsuarios);
 
-        setJMenuBar(jMenuBar2);
+        mnuItemSalir.setText("Salir");
+        mnuArchivo.add(mnuItemSalir);
+
+        barraMenu.add(mnuArchivo);
+
+        mnuOpciones.setText("Opciones");
+
+        mnuItemAcercaDe.setText("Acerca de");
+        mnuOpciones.add(mnuItemAcercaDe);
+
+        barraMenu.add(mnuOpciones);
+
+        setJMenuBar(barraMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane2)
+            .addComponent(escritorio)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane2)
+            .addComponent(escritorio)
         );
 
         pack();
@@ -72,9 +88,12 @@ public class Principal extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane jDesktopPane2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuBar barraMenu;
+    private javax.swing.JDesktopPane escritorio;
+    private javax.swing.JMenu mnuArchivo;
+    private javax.swing.JMenuItem mnuItemAcercaDe;
+    private javax.swing.JMenuItem mnuItemGUsuarios;
+    private javax.swing.JMenuItem mnuItemSalir;
+    private javax.swing.JMenu mnuOpciones;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,6 +8,7 @@ package controlador;
 import java.util.LinkedList;
 import java.util.List;
 import modelo.Empresa;
+import modelo.NivelDeUsario;
 import modelo.Usuario;
 import vista.Login;
 
@@ -23,7 +24,11 @@ public class ControladoraPrincipal {
     public ControladoraPrincipal() {
         Usuario usuario;
         List<Usuario> usuarios;
+        NivelDeUsario nivel1 = new NivelDeUsario("nivel 1", 1);
+        NivelDeUsario nivel2 = new NivelDeUsario("nivel 2", 2);
+        
         usuario = new Usuario("Cristian", "cristian", "1234");
+        usuario.setNivel(nivel2);
         usuarios = new LinkedList();
         usuarios.add(usuario);
         empresa = new Empresa("Sistemate", "direccion", usuarios);
