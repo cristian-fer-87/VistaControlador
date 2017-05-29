@@ -15,6 +15,7 @@ public class Empresa {
     private String nombre;
     private String direccion;
     private List<Usuario> usuarios;
+    private List<NivelDeUsario> nivelesDeUsuario;
 
     public Empresa(String nombre, String direccion, List<Usuario> usuarios) {
         this.nombre = nombre;
@@ -47,6 +48,14 @@ public class Empresa {
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
+
+    public List<NivelDeUsario> getNivelesDeUsuario() {
+        return nivelesDeUsuario;
+    }
+
+    public void setNivelesDeUsuario(List<NivelDeUsario> nivelesDeUsuario) {
+        this.nivelesDeUsuario = nivelesDeUsuario;
+    }
     
     public Usuario buscarUsuario(String usuario) /*throws Exception*/{
         Usuario u = null;
@@ -58,4 +67,5 @@ public class Empresa {
         }
         return u;
     }
+    
 }

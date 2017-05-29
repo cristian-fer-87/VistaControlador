@@ -5,6 +5,7 @@
  */
 package vista;
 
+import controlador.ControladoraPrincipal;
 import modelo.Usuario;
 
 /**
@@ -13,12 +14,14 @@ import modelo.Usuario;
  */
 public class Principal extends javax.swing.JFrame {
     private Usuario usuarioLogueado;
+    private ControladoraPrincipal cp;
     /**
      * Creates new form Principal
      */
-    public Principal(Usuario usuario) {
+    public Principal(Usuario usuario, ControladoraPrincipal cp) {
         initComponents();
         this.usuarioLogueado = usuario;
+        this.cp = cp;
         if(this.usuarioLogueado.getNivel().getNivel() == 2)
             mnuItemGUsuarios.setEnabled(false);
     }
@@ -56,6 +59,11 @@ public class Principal extends javax.swing.JFrame {
         mnuArchivo.setText("Archivo");
 
         mnuItemGUsuarios.setText("Gestión de Usuarios");
+        mnuItemGUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuItemGUsuariosActionPerformed(evt);
+            }
+        });
         mnuArchivo.add(mnuItemGUsuarios);
 
         mnuItemSalir.setText("Salir");
@@ -85,6 +93,12 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void mnuItemGUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuItemGUsuariosActionPerformed
+        GestionUsuarios gestionDeUsuarios = new GestionUsuarios(cp);
+        this.escritorio.add(gestionDeUsuarios);
+        gestionDeUsuarios.setVisible(true);
+    }//GEN-LAST:event_mnuItemGUsuariosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

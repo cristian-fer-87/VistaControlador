@@ -99,7 +99,7 @@ public class Login extends javax.swing.JFrame {
             //Recupero el usuario (si es que existe)
             Usuario usuarioLogueado = cp.getcLogueo().usuarioLogueado(usuario, clave);
             //si todo sale bien llamo a la ventana principal de mi aplicación
-            Principal principal = new Principal(usuarioLogueado);
+            Principal principal = new Principal(usuarioLogueado, cp);
             principal.setVisible(true);
             //Cierro esta ventana de login.
             this.dispose();
