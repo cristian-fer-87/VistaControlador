@@ -9,8 +9,10 @@ import controlador.ControladoraPrincipal;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import modelo.NivelDeUsario;
 import modelo.Usuario;
 
 /**
@@ -129,6 +131,16 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblUsuariosMouseClicked(evt);
+            }
+        });
+        tblUsuarios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblUsuariosKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblUsuarios);
 
         btnNuevo.setText("Nuevo");
@@ -153,6 +165,11 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
         });
 
         btnBorrar.setText("Borrar");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -162,6 +179,11 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
         });
 
         btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout plGeneralLayout = new javax.swing.GroupLayout(plGeneral);
         plGeneral.setLayout(plGeneralLayout);
@@ -234,13 +256,19 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         this.editandoOCreando("nuevo");
+        this.limpiarCampos();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        this.editandoOCreando("editar");
+        if(tblUsuarios.getSelectedRow() > -1 && tblUsuarios.getSelectedRowCount() == 1){
+            String seleccionado = (String)tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(), 1);
+            if(this.cp.getcLogueo().buscarUsuario(seleccionado) != null)
+                this.editandoOCreando("editar");
+        }else
+            JOptionPane.showMessageDialog(null, "Seleccione un solo elemento de la lista");
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -248,8 +276,77 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        this.estadoInicial();
+        String nombre = txtNombre.getText();
+        String nombreUsuario = txtUsuario.getText();
+        String clave = txtClave.getText();
+        try{
+            NivelDeUsario nivel = (NivelDeUsario)cmbNivel.getSelectedItem();
+            if(bandera.equals("nuevo"))
+                this.cp.getcLogueo().nuevoUsuario(nombre, nombreUsuario, clave, nivel);
+            else
+                if(bandera.equals("editar"))
+                    this.cp.getcLogueo().editarUsuario(nombre, nombreUsuario, clave, nivel);
+            this.estadoInicial();
+        }catch (ClassCastException e){
+            JOptionPane.showMessageDialog(null, "Seleccione un nivel");
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void tblUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUsuariosMouseClicked
+        if (tblUsuarios.getSelectedRow() > -1 && tblUsuarios.getSelectedRowCount() == 1) {
+            String seleccionado = (String)tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(), 1);
+            Usuario usuario = this.cp.getcLogueo().buscarUsuario(seleccionado);
+            if(usuario != null){
+                txtNombre.setText(usuario.getNombre());
+                txtUsuario.setText(usuario.getUsuario());
+                txtClave.setText(usuario.getClave());
+                cmbNivel.setSelectedItem(usuario.getNivel());
+            }else{
+                JOptionPane.showMessageDialog(null, "Error al traer los datos del usuario");
+            }
+        }
+    }//GEN-LAST:event_tblUsuariosMouseClicked
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        try {
+            if (tblUsuarios.getSelectedRow() > -1 && tblUsuarios.getSelectedRowCount() == 1) {
+                String seleccionado = (String) tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(), 1);
+
+                int seleccion = JOptionPane.showConfirmDialog(null, "Está seguro de borrar el Usuario", "Input", JOptionPane.YES_NO_OPTION);
+                if (seleccion == JOptionPane.YES_OPTION) {
+                    this.cp.getcLogueo().borrarUsuario(seleccionado);
+                    this.estadoInicial();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Seleccione un solo elemento de la lista");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void tblUsuariosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblUsuariosKeyPressed
+        if(evt.getKeyCode() == 38 || evt.getKeyCode() == 40){
+            if (tblUsuarios.getSelectedRow() > -1 && tblUsuarios.getSelectedRowCount() == 1) {
+                String seleccionado = (String)tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(), 1);
+                Usuario usuario = this.cp.getcLogueo().buscarUsuario(seleccionado);
+                if(usuario != null){
+                    txtNombre.setText(usuario.getNombre());
+                    txtUsuario.setText(usuario.getUsuario());
+                    txtClave.setText(usuario.getClave());
+                    cmbNivel.setSelectedItem(usuario.getNivel());
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error al traer los datos del usuario");
+                } 
+            }
+        }
+    }//GEN-LAST:event_tblUsuariosKeyPressed
     
     public void estadoInicial(){
         this.txtClave.setEnabled(false);
@@ -305,6 +402,8 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
         this.txtUsuario.setText("");
         UtilVista.cargarCombo(this.cp.getNiveles(), cmbNivel);
     }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnCancelar;

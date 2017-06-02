@@ -67,5 +67,21 @@ public class Empresa {
         }
         return u;
     }
+    public void nuevoUsuario(String nombre, String nombreUsuario, String clave, NivelDeUsario nivel){
+         Usuario usuario = new Usuario(nombre, nombreUsuario, clave);
+        usuario.setNivel(nivel);
+        this.usuarios.add(usuario);
+    }
     
+    public void editarUsuario(String nombre, String nombreUsuario, String clave, NivelDeUsario nivel){
+        Usuario usuario = this.buscarUsuario(nombreUsuario);
+        usuario.setClave(clave);
+        usuario.setNombre(nombre);
+        usuario.setNivel(nivel);
+    }
+    
+    public void borrarUsuario(String nombreUsuario){
+        Usuario usuario = this.buscarUsuario(nombreUsuario);
+        this.usuarios.remove(usuario);
+    }
 }
