@@ -43,7 +43,7 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
 
         plGeneral = new javax.swing.JPanel();
         plAtributos = new javax.swing.JPanel();
-        cmbNivel = new javax.swing.JComboBox<>();
+        cmbNivel = new javax.swing.JComboBox<String>();
         lblNivel = new javax.swing.JLabel();
         txtClave = new javax.swing.JTextField();
         lblClave = new javax.swing.JLabel();
@@ -60,12 +60,16 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
         btnGuardar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
+        txtBuscarNombre = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JButton();
+        btnRefrescar = new javax.swing.JButton();
 
         plGeneral.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         plAtributos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        cmbNivel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbNivel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lblNivel.setText("Nivel");
 
@@ -233,6 +237,22 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
 
         lblTitulo.setText("Gestión de Usuarios");
 
+        jLabel1.setText("Nombre:");
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        btnRefrescar.setText("Refrescar");
+        btnRefrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefrescarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -241,14 +261,28 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(plGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(45, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(86, 86, 86)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtBuscarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBuscar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRefrescar)))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtBuscarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(btnBuscar)
+                    .addComponent(btnRefrescar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(plGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -347,6 +381,20 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_tblUsuariosKeyPressed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String nombre = txtBuscarNombre.getText();
+        if(!nombre.equals("")){
+            tblUsuarios.setModel(new DefaultTableModel());
+            this.cargarTabla(this.cp.getcLogueo().buscarUsuarios(nombre));
+        }else
+            JOptionPane.showMessageDialog(null, "Ingrese un texto para buscar");
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnRefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefrescarActionPerformed
+        txtBuscarNombre.setText("");
+        this.cargarTabla(this.cp.getcLogueo().getUsuarios());
+    }//GEN-LAST:event_btnRefrescarActionPerformed
     
     public void estadoInicial(){
         this.txtClave.setEnabled(false);
@@ -360,7 +408,7 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
         this.btnEditar.setEnabled(true);
         this.btnNuevo.setEnabled(true);
         this.bandera = "";
-        this.cargarTabla();
+        this.cargarTabla(this.cp.getcLogueo().getUsuarios());
         limpiarCampos();
     }
     
@@ -377,15 +425,15 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
         this.btnNuevo.setEnabled(false);
         this.btnSalir.setEnabled(false);
     }
-    public void cargarTabla() {
+    public void cargarTabla(List<Usuario> usuarios) {
         DefaultTableModel miTabla = new DefaultTableModel();//(DefaultTableModel)tblUsuarios.getModel();
         String cabecera[] = {"Nombre", "Usuario", "Clave","Nivel"};
         miTabla.setColumnIdentifiers(cabecera);
         Object fila[] = new Object[miTabla.getColumnCount()];
       
-        if(this.cp.getcLogueo().getUsuarios() != null){
+        if(usuarios != null){
             
-            for (Usuario u : this.cp.getcLogueo().getUsuarios()){
+            for (Usuario u : usuarios){
                 fila[0] = u.getNombre();
                 fila[1] = u.getUsuario();
                 fila[2] = u.getClave();
@@ -406,12 +454,15 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnRefrescar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cmbNivel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblClave;
     private javax.swing.JLabel lblNivel;
@@ -421,6 +472,7 @@ public class GestionUsuarios extends javax.swing.JInternalFrame {
     private javax.swing.JPanel plAtributos;
     private javax.swing.JPanel plGeneral;
     private javax.swing.JTable tblUsuarios;
+    private javax.swing.JTextField txtBuscarNombre;
     private javax.swing.JTextField txtClave;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtUsuario;

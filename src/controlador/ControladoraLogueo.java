@@ -58,5 +58,7 @@ public class ControladoraLogueo {
             else
                 throw new Exception("El usuario no existe");
     }
-        
+    public List<Usuario> buscarUsuarios(String nombre){
+        return this.em.buscarUsuarios(nombre);
+    }
 }

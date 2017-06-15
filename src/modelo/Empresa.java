@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -83,5 +84,14 @@ public class Empresa {
     public void borrarUsuario(String nombreUsuario){
         Usuario usuario = this.buscarUsuario(nombreUsuario);
         this.usuarios.remove(usuario);
+    }
+    
+    public List<Usuario> buscarUsuarios(String nombre) /*throws Exception*/{
+        List<Usuario> us = new LinkedList<>();
+        for (Usuario u : this.usuarios) {
+            if(u.getNombre().indexOf(nombre) != -1)
+                us.add(u);
+        }
+        return us;
     }
 }
